@@ -4,420 +4,468 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Azizul Hakim — Rishad</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  :root {
-    --cream: #F7F4EF;
-    --ink: #1a1814;
-    --muted: #7a7570;
-    --accent: #c9a96e;
-    --soft: #ede9e2;
-    --green: #5a7a5a;
-  }
+:root {
+  --forest:    #1b3a2d;
+  --deep:      #0f2219;
+  --moss:      #3a6b4a;
+  --fern:      #5c8f67;
+  --sage:      #8ab89a;
+  --mist:      #c2d9c8;
+  --dew:       #e8f2eb;
+  --parchment: #f2ede4;
+  --gold:      #c9a84c;
+  --ink:       #0d1f16;
+  --cream:     #f7f3ec;
+}
 
-  html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 
-  body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+body {
+  background: var(--deep);
+  color: var(--parchment);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
+#leaf-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
 
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 64px 28px 80px;
-  }
+.bg-gradient {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(58,107,74,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(27,58,45,0.5) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, #0f2219 0%, #081510 100%);
+  z-index: 0;
+  pointer-events: none;
+}
 
-  /* ── hero ── */
-  .hero {
-    margin-bottom: 56px;
-    opacity: 0;
-    animation: fadeUp 0.9s cubic-bezier(.22,1,.36,1) 0.1s forwards;
-  }
+.bg-texture {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
 
-  .eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 14px;
-    font-weight: 500;
-  }
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 72px 28px 100px;
+}
 
-  h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(42px, 10vw, 58px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    margin-bottom: 6px;
-  }
+/* HERO */
+.hero {
+  margin-bottom: 64px;
+  opacity: 0;
+  animation: riseIn 1s cubic-bezier(.22,1,.36,1) 0.15s forwards;
+}
 
-  h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(92,143,103,0.18);
+  border: 1px solid rgba(138,184,154,0.3);
+  border-radius: 99px;
+  padding: 6px 16px 6px 10px;
+  font-size: 12px;
+  color: var(--sage);
+  margin-bottom: 28px;
+  letter-spacing: 0.04em;
+  backdrop-filter: blur(8px);
+}
 
-  .nickname {
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 24px;
-    font-weight: 400;
-  }
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #7dbf7d;
+  box-shadow: 0 0 6px #7dbf7d;
+  animation: pulse 2.5s infinite;
+  flex-shrink: 0;
+}
 
-  .quote-line {
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    font-size: 15px;
-    color: var(--muted);
-    border-left: 2px solid var(--accent);
-    padding-left: 14px;
-    line-height: 1.6;
-  }
+@keyframes pulse {
+  0%,100% { opacity:1; box-shadow: 0 0 6px #7dbf7d; }
+  50%      { opacity:0.5; box-shadow: 0 0 2px #7dbf7d; }
+}
 
-  /* ── divider ── */
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
-    margin: 40px 0;
-    opacity: 0.35;
-  }
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
 
-  /* ── section ── */
-  .section {
-    margin-bottom: 40px;
-    opacity: 0;
-    animation: fadeUp 0.9s cubic-bezier(.22,1,.36,1) forwards;
-  }
-  .section:nth-child(3) { animation-delay: 0.2s; }
-  .section:nth-child(4) { animation-delay: 0.3s; }
-  .section:nth-child(5) { animation-delay: 0.4s; }
-  .section:nth-child(6) { animation-delay: 0.5s; }
-  .section:nth-child(7) { animation-delay: 0.6s; }
-  .section:nth-child(8) { animation-delay: 0.7s; }
-  .section:nth-child(9) { animation-delay: 0.75s; }
-  .section:nth-child(10) { animation-delay: 0.8s; }
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 12vw, 66px);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--parchment);
+  margin-bottom: 6px;
+}
 
-  .section-label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 500;
-    margin-bottom: 14px;
-  }
+h1 em {
+  font-style: italic;
+  color: var(--sage);
+}
 
-  /* ── info grid ── */
-  .info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
+.nickname {
+  font-size: 13px;
+  color: rgba(194,217,200,0.55);
+  margin-bottom: 28px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
 
-  .info-item {
-    background: var(--soft);
-    border-radius: 10px;
-    padding: 14px 16px;
-    transition: transform 0.2s ease;
-  }
+.quote-line {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: rgba(194,217,200,0.7);
+  border-left: 2px solid var(--fern);
+  padding-left: 16px;
+  line-height: 1.65;
+}
 
-  .info-item:hover { transform: translateY(-2px); }
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--fern) 0%, transparent 100%);
+  margin: 44px 0;
+  opacity: 0.3;
+}
 
-  .info-item .label {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
+.section {
+  margin-bottom: 44px;
+  opacity: 0;
+  animation: riseIn 0.9s cubic-bezier(.22,1,.36,1) forwards;
+}
+.section:nth-child(3)  { animation-delay: 0.25s; }
+.section:nth-child(4)  { animation-delay: 0.35s; }
+.section:nth-child(5)  { animation-delay: 0.45s; }
+.section:nth-child(6)  { animation-delay: 0.55s; }
+.section:nth-child(7)  { animation-delay: 0.62s; }
+.section:nth-child(8)  { animation-delay: 0.68s; }
+.section:nth-child(9)  { animation-delay: 0.73s; }
+.section:nth-child(10) { animation-delay: 0.78s; }
+.section:nth-child(11) { animation-delay: 0.83s; }
 
-  .info-item .value {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink);
-    line-height: 1.35;
-  }
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  /* ── tags ── */
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(92,143,103,0.4), transparent);
+}
 
-  .tag {
-    font-size: 13px;
-    padding: 7px 14px;
-    background: var(--soft);
-    border-radius: 99px;
-    color: var(--ink);
-    font-weight: 400;
-    border: 1px solid transparent;
-    transition: border-color 0.2s, background 0.2s;
-  }
+/* INFO GRID */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
 
-  .tag:hover {
-    border-color: var(--accent);
-    background: var(--cream);
-  }
+.info-item {
+  background: rgba(58,107,74,0.12);
+  border: 1px solid rgba(138,184,154,0.12);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: transform 0.25s ease, border-color 0.25s, background 0.25s;
+  backdrop-filter: blur(4px);
+}
 
-  /* ── about ── */
-  .about-text {
-    font-size: 15px;
-    line-height: 1.8;
-    color: var(--ink);
-    font-weight: 300;
-  }
+.info-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(138,184,154,0.3);
+  background: rgba(58,107,74,0.22);
+}
 
-  .about-text strong {
-    font-weight: 500;
-    color: var(--ink);
-  }
+.info-item .label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-bottom: 5px;
+  opacity: 0.7;
+}
 
-  /* ── highlight card ── */
-  .highlight-card {
-    background: var(--soft);
-    border-radius: 14px;
-    padding: 20px;
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    font-size: 16px;
-    line-height: 1.75;
-    color: var(--ink);
-  }
+.info-item .value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--parchment);
+  line-height: 1.35;
+}
 
-  /* ── place card ── */
-  .place-card {
-    background: var(--soft);
-    border-radius: 14px;
-    padding: 20px 20px 16px;
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-  }
+/* TAGS */
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
 
-  .place-icon {
-    font-size: 28px;
-    line-height: 1;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
+.tag {
+  font-size: 13px;
+  padding: 7px 14px;
+  background: rgba(58,107,74,0.15);
+  border-radius: 99px;
+  color: var(--mist);
+  font-weight: 400;
+  border: 1px solid rgba(138,184,154,0.15);
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
 
-  .place-name {
-    font-family: 'DM Serif Display', serif;
-    font-size: 18px;
-    color: var(--ink);
-    margin-bottom: 4px;
-  }
+.tag:hover {
+  border-color: rgba(138,184,154,0.5);
+  background: rgba(58,107,74,0.28);
+  transform: translateY(-2px);
+}
 
-  .place-desc {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
+/* ABOUT */
+.about-text {
+  font-size: 15px;
+  line-height: 1.85;
+  color: rgba(194,217,200,0.82);
+  font-weight: 300;
+}
 
-  /* ── goal card ── */
-  .goal-card {
-    background: var(--ink);
-    border-radius: 14px;
-    padding: 22px 20px;
-    color: var(--cream);
-  }
+.about-text strong { font-weight: 500; color: var(--dew); }
 
-  .goal-card .goal-label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 500;
-    margin-bottom: 10px;
-  }
+/* PLACE CARD */
+.place-card {
+  background: rgba(58,107,74,0.14);
+  border: 1px solid rgba(138,184,154,0.15);
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  backdrop-filter: blur(6px);
+}
 
-  .goal-card .goal-text {
-    font-family: 'DM Serif Display', serif;
-    font-size: 18px;
-    line-height: 1.5;
-    color: var(--cream);
-  }
+.place-icon {
+  font-size: 30px;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+  filter: drop-shadow(0 0 8px rgba(92,143,103,0.6));
+}
 
-  .goal-card .goal-sub {
-    font-size: 13px;
-    color: #8a8580;
-    margin-top: 8px;
-    line-height: 1.6;
-  }
+.place-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--parchment);
+  margin-bottom: 6px;
+}
 
-  /* ── free day ── */
-  .free-day-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+.place-desc {
+  font-size: 13px;
+  color: rgba(194,217,200,0.65);
+  line-height: 1.65;
+}
 
-  .free-day-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--soft);
-    border-radius: 10px;
-    padding: 13px 16px;
-    font-size: 14px;
-    color: var(--ink);
-    transition: transform 0.2s ease;
-  }
+/* GOAL CARD */
+.goal-card {
+  background: linear-gradient(135deg, rgba(27,58,45,0.9) 0%, rgba(15,34,25,0.95) 100%);
+  border: 1px solid rgba(92,143,103,0.35);
+  border-radius: 16px;
+  padding: 24px 22px;
+  position: relative;
+  overflow: hidden;
+}
 
-  .free-day-item:hover { transform: translateX(4px); }
+.goal-card::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(92,143,103,0.15) 0%, transparent 70%);
+}
 
-  .free-day-item .icon {
-    font-size: 18px;
-    flex-shrink: 0;
-  }
+.goal-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
 
-  /* ── good side ── */
-  .good-side {
-    background: var(--soft);
-    border-radius: 14px;
-    padding: 20px;
-    font-size: 14px;
-    line-height: 1.75;
-    color: var(--ink);
-    font-style: italic;
-    font-family: 'DM Serif Display', serif;
-    font-size: 16px;
-  }
+.goal-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--parchment);
+  margin-bottom: 10px;
+}
 
-  /* ── links ── */
-  .links {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+.goal-sub {
+  font-size: 13px;
+  color: rgba(138,184,154,0.65);
+  line-height: 1.7;
+}
 
-  .link-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px;
-    background: var(--soft);
-    border-radius: 12px;
-    text-decoration: none;
-    color: var(--ink);
-    font-size: 14px;
-    font-weight: 400;
-    border: 1px solid transparent;
-    transition: border-color 0.25s, background 0.25s, transform 0.2s;
-  }
+/* FREE DAY */
+.free-day-list { display: flex; flex-direction: column; gap: 8px; }
 
-  .link-btn:hover {
-    border-color: var(--accent);
-    background: var(--cream);
-    transform: translateX(4px);
-  }
+.free-day-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(58,107,74,0.1);
+  border: 1px solid rgba(138,184,154,0.1);
+  border-radius: 12px;
+  padding: 13px 16px;
+  font-size: 14px;
+  color: rgba(194,217,200,0.8);
+  transition: transform 0.2s ease, border-color 0.2s, background 0.2s;
+}
 
-  .link-btn .link-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+.free-day-item:hover {
+  transform: translateX(5px);
+  border-color: rgba(138,184,154,0.28);
+  background: rgba(58,107,74,0.2);
+}
 
-  .link-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: var(--cream);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-  }
+.free-day-item .icon { font-size: 18px; flex-shrink: 0; }
 
-  .link-handle {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 1px;
-  }
+/* QUOTE */
+.good-side {
+  background: rgba(58,107,74,0.12);
+  border: 1px solid rgba(138,184,154,0.15);
+  border-radius: 16px;
+  padding: 22px 24px;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.75;
+  color: rgba(194,217,200,0.85);
+  position: relative;
+}
 
-  .arrow {
-    color: var(--accent);
-    font-size: 16px;
-    transition: transform 0.2s;
-  }
+.good-side::before {
+  content: '\201C';
+  position: absolute;
+  top: -14px; left: 18px;
+  font-size: 72px;
+  color: var(--fern);
+  opacity: 0.25;
+  font-family: 'Playfair Display', serif;
+  line-height: 1;
+}
 
-  .link-btn:hover .arrow { transform: translateX(3px); }
+/* LINKS */
+.links { display: flex; flex-direction: column; gap: 10px; }
 
-  /* ── status pill ── */
-  .status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: var(--soft);
-    border-radius: 99px;
-    padding: 6px 14px 6px 10px;
-    font-size: 13px;
-    color: var(--ink);
-    margin-bottom: 20px;
-  }
+.link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: rgba(58,107,74,0.12);
+  border: 1px solid rgba(138,184,154,0.12);
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--parchment);
+  font-size: 14px;
+  font-weight: 400;
+  transition: border-color 0.25s, background 0.25s, transform 0.22s;
+  backdrop-filter: blur(6px);
+}
 
-  .status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #7dbf7d;
-    animation: pulse 2s infinite;
-    flex-shrink: 0;
-  }
+.link-btn:hover {
+  border-color: rgba(138,184,154,0.4);
+  background: rgba(58,107,74,0.25);
+  transform: translateX(5px);
+}
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.85); }
-  }
+.link-left { display: flex; align-items: center; gap: 14px; }
 
-  /* ── footer ── */
-  .footer {
-    text-align: center;
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 60px;
-    opacity: 0;
-    animation: fadeUp 0.9s cubic-bezier(.22,1,.36,1) 0.9s forwards;
-    letter-spacing: 0.05em;
-  }
+.link-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(58,107,74,0.3);
+  border: 1px solid rgba(138,184,154,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
 
-  .footer span { color: var(--accent); }
+.link-name { font-size: 14px; color: var(--parchment); font-weight: 400; }
+.link-handle { font-size: 12px; color: var(--sage); margin-top: 2px; opacity: 0.75; }
 
-  /* ── animation ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+.arrow { color: var(--fern); font-size: 17px; transition: transform 0.2s; }
+.link-btn:hover .arrow { transform: translateX(4px); }
 
-  @media (max-width: 360px) {
-    .info-grid { grid-template-columns: 1fr; }
-  }
+.link-btn--ig {
+  background: rgba(40,85,55,0.2);
+  border-color: rgba(92,143,103,0.25);
+}
+.link-btn--ig:hover {
+  background: rgba(40,85,55,0.35);
+  border-color: rgba(92,143,103,0.5);
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: rgba(138,184,154,0.4);
+  margin-top: 64px;
+  opacity: 0;
+  animation: riseIn 1s cubic-bezier(.22,1,.36,1) 1s forwards;
+  letter-spacing: 0.08em;
+}
+
+.footer span { color: var(--gold); opacity: 0.7; }
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 360px) {
+  .info-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
+
+<div class="bg-gradient"></div>
+<div class="bg-texture"></div>
+<canvas id="leaf-canvas"></canvas>
+
 <div class="container">
 
-  <!-- hero -->
   <div class="hero">
     <div class="status-pill">
       <span class="status-dot"></span>
@@ -431,38 +479,18 @@
 
   <div class="divider"></div>
 
-  <!-- basics -->
   <div class="section">
     <p class="section-label">The basics</p>
     <div class="info-grid">
-      <div class="info-item">
-        <p class="label">Age</p>
-        <p class="value">19</p>
-      </div>
-      <div class="info-item">
-        <p class="label">MBTI</p>
-        <p class="value">ISFJ ✦</p>
-      </div>
-      <div class="info-item">
-        <p class="label">Currently at</p>
-        <p class="value">Dhaka College, Year 12</p>
-      </div>
-      <div class="info-item">
-        <p class="label">Was at</p>
-        <p class="value">University Laboratory School & College</p>
-      </div>
-      <div class="info-item">
-        <p class="label">City</p>
-        <p class="value">Dhaka, BD</p>
-      </div>
-      <div class="info-item">
-        <p class="label">Birthday</p>
-        <p class="value">8th January</p>
-      </div>
+      <div class="info-item"><p class="label">Age</p><p class="value">19</p></div>
+      <div class="info-item"><p class="label">MBTI</p><p class="value">ISFJ ✦</p></div>
+      <div class="info-item"><p class="label">Currently at</p><p class="value">Dhaka College, Year 12</p></div>
+      <div class="info-item"><p class="label">Was at</p><p class="value">University Lab School &amp; College</p></div>
+      <div class="info-item"><p class="label">City</p><p class="value">Dhaka, BD</p></div>
+      <div class="info-item"><p class="label">Birthday</p><p class="value">8th January</p></div>
     </div>
   </div>
 
-  <!-- about -->
   <div class="section">
     <p class="section-label">About</p>
     <p class="about-text">
@@ -472,7 +500,6 @@
     </p>
   </div>
 
-  <!-- favourite place -->
   <div class="section">
     <p class="section-label">Favourite place</p>
     <div class="place-card">
@@ -484,7 +511,6 @@
     </div>
   </div>
 
-  <!-- goal -->
   <div class="section">
     <p class="section-label">Where I'm headed</p>
     <div class="goal-card">
@@ -494,34 +520,17 @@
     </div>
   </div>
 
-  <!-- free day -->
   <div class="section">
     <p class="section-label">A free day looks like</p>
     <div class="free-day-list">
-      <div class="free-day-item">
-        <span class="icon">🍜</span>
-        <span>Making noodles — my own recipe, my own pace</span>
-      </div>
-      <div class="free-day-item">
-        <span class="icon">📱</span>
-        <span>Scrolling social media, falling into rabbit holes</span>
-      </div>
-      <div class="free-day-item">
-        <span class="icon">📖</span>
-        <span>Reading — lately <em>Things Only You See When You Slow Down</em></span>
-      </div>
-      <div class="free-day-item">
-        <span class="icon">💭</span>
-        <span>Just thinking about everything. For a long time.</span>
-      </div>
-      <div class="free-day-item">
-        <span class="icon">🌿</span>
-        <span>Being somewhere natural — or at least wishing I was</span>
-      </div>
+      <div class="free-day-item"><span class="icon">🍜</span><span>Making noodles — my own recipe, my own pace</span></div>
+      <div class="free-day-item"><span class="icon">📱</span><span>Scrolling social media, falling into rabbit holes</span></div>
+      <div class="free-day-item"><span class="icon">📖</span><span>Reading — lately <em>Things Only You See When You Slow Down</em></span></div>
+      <div class="free-day-item"><span class="icon">💭</span><span>Just thinking about everything. For a long time.</span></div>
+      <div class="free-day-item"><span class="icon">🌿</span><span>Being somewhere natural — or at least wishing I was</span></div>
     </div>
   </div>
 
-  <!-- what people say -->
   <div class="section">
     <p class="section-label">What people say</p>
     <div class="good-side">
@@ -529,12 +538,11 @@
     </div>
   </div>
 
-  <!-- into -->
   <div class="section">
     <p class="section-label">Into</p>
     <div class="tags">
       <span class="tag">🍜 Cooking noodles</span>
-      <span class="tag">🌿 Nature & natural things</span>
+      <span class="tag">🌿 Nature &amp; natural things</span>
       <span class="tag">📷 Editing</span>
       <span class="tag">🎮 Gaming</span>
       <span class="tag">🚶 Walking</span>
@@ -549,15 +557,20 @@
 
   <div class="divider"></div>
 
-  <!-- links -->
   <div class="section">
     <p class="section-label">Find me</p>
     <div class="links">
-      <a href="https://instagram.com/rishadhq" class="link-btn" target="_blank">
+      <a href="https://instagram.com/rishadhq" class="link-btn link-btn--ig" target="_blank">
         <div class="link-left">
-          <div class="link-icon">📸</div>
+          <div class="link-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="2" width="20" height="20" rx="6" stroke="#8ab89a" stroke-width="1.8"/>
+              <circle cx="12" cy="12" r="4.5" stroke="#8ab89a" stroke-width="1.8"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="#8ab89a"/>
+            </svg>
+          </div>
           <div>
-            <div>Instagram</div>
+            <div class="link-name">Instagram</div>
             <div class="link-handle">@rishadhq</div>
           </div>
         </div>
@@ -567,7 +580,7 @@
         <div class="link-left">
           <div class="link-icon">🎮</div>
           <div>
-            <div>Discord</div>
+            <div class="link-name">Discord</div>
             <div class="link-handle">mindsopeaceful</div>
           </div>
         </div>
@@ -577,7 +590,7 @@
         <div class="link-left">
           <div class="link-icon">✉️</div>
           <div>
-            <div>Email me</div>
+            <div class="link-name">Email me</div>
             <div class="link-handle">azsksk123@gmail.com</div>
           </div>
         </div>
@@ -591,5 +604,142 @@
   </div>
 
 </div>
+
+<script>
+const canvas = document.getElementById('leaf-canvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const LEAF_COLORS = [
+  'rgba(92,143,103,',
+  'rgba(58,107,74,',
+  'rgba(138,184,154,',
+  'rgba(43,90,60,',
+  'rgba(74,124,87,',
+  'rgba(110,160,120,',
+];
+
+function drawLeaf(ctx, x, y, w, h, angle, alpha, shape) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+  ctx.globalAlpha = alpha;
+
+  if (shape === 0) {
+    ctx.beginPath();
+    ctx.ellipse(0, 0, w * 0.38, h * 0.18, 0, 0, Math.PI * 2);
+    ctx.fill();
+  } else if (shape === 1) {
+    ctx.beginPath();
+    ctx.moveTo(0, -h * 0.22);
+    ctx.bezierCurveTo(w * 0.22, -h * 0.1, w * 0.22, h * 0.1, 0, h * 0.22);
+    ctx.bezierCurveTo(-w * 0.22, h * 0.1, -w * 0.22, -h * 0.1, 0, -h * 0.22);
+    ctx.fill();
+  } else if (shape === 2) {
+    ctx.beginPath();
+    ctx.moveTo(0, -h * 0.25);
+    ctx.lineTo(w * 0.15, -h * 0.08);
+    ctx.lineTo(w * 0.28, -h * 0.18);
+    ctx.lineTo(w * 0.22, 0);
+    ctx.lineTo(w * 0.28, h * 0.1);
+    ctx.lineTo(0, h * 0.25);
+    ctx.lineTo(-w * 0.28, h * 0.1);
+    ctx.lineTo(-w * 0.22, 0);
+    ctx.lineTo(-w * 0.28, -h * 0.18);
+    ctx.lineTo(-w * 0.15, -h * 0.08);
+    ctx.closePath();
+    ctx.fill();
+  } else {
+    ctx.beginPath();
+    ctx.arc(0, 0, w * 0.08, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+class Leaf {
+  constructor() { this.reset(true); }
+
+  reset(init = false) {
+    this.x     = Math.random() * canvas.width;
+    this.y     = init ? Math.random() * canvas.height : -30;
+    this.size  = 14 + Math.random() * 28;
+    this.speed = 0.4 + Math.random() * 0.9;
+    this.wind  = (Math.random() - 0.45) * 0.6;
+    this.rot   = Math.random() * Math.PI * 2;
+    this.rotSpd= (Math.random() - 0.5) * 0.025;
+    this.sway  = Math.random() * Math.PI * 2;
+    this.swaySpd = 0.008 + Math.random() * 0.014;
+    this.swayAmp = 0.4 + Math.random() * 1.2;
+    this.alpha = 0.08 + Math.random() * 0.28;
+    this.colorIdx = Math.floor(Math.random() * LEAF_COLORS.length);
+    this.shape = Math.floor(Math.random() * 4);
+  }
+
+  update() {
+    this.sway += this.swaySpd;
+    this.x    += this.wind + Math.sin(this.sway) * this.swayAmp;
+    this.y    += this.speed;
+    this.rot  += this.rotSpd;
+    if (this.y > canvas.height + 40) this.reset();
+    if (this.x > canvas.width  + 60) this.x = -60;
+    if (this.x < -60)                this.x = canvas.width + 60;
+  }
+
+  draw() {
+    ctx.fillStyle = LEAF_COLORS[this.colorIdx] + this.alpha + ')';
+    drawLeaf(ctx, this.x, this.y, this.size, this.size, this.rot, 1, this.shape);
+  }
+}
+
+class WindStreak {
+  constructor() { this.reset(true); }
+
+  reset(init = false) {
+    this.x    = init ? Math.random() * canvas.width : -120;
+    this.y    = Math.random() * canvas.height;
+    this.len  = 30 + Math.random() * 90;
+    this.speed= 2 + Math.random() * 4;
+    this.alpha= 0.015 + Math.random() * 0.04;
+    this.angle= -0.05 + Math.random() * 0.1;
+  }
+
+  update() {
+    this.x += this.speed;
+    if (this.x > canvas.width + this.len) this.reset();
+  }
+
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.strokeStyle = 'rgba(138,184,154,1)';
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x + Math.cos(this.angle) * this.len, this.y + Math.sin(this.angle) * this.len);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+const leaves     = Array.from({ length: 55 }, () => new Leaf());
+const windStreaks = Array.from({ length: 18 }, () => new WindStreak());
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  windStreaks.forEach(w => { w.update(); w.draw(); });
+  leaves.forEach(l => { l.update(); l.draw(); });
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
 </body>
 </html>
