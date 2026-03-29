@@ -169,6 +169,10 @@ h1 em {
 .section:nth-child(9)  { animation-delay: 0.73s; }
 .section:nth-child(10) { animation-delay: 0.78s; }
 .section:nth-child(11) { animation-delay: 0.83s; }
+.section:nth-child(12) { animation-delay: 0.87s; }
+.section:nth-child(13) { animation-delay: 0.91s; }
+.section:nth-child(14) { animation-delay: 0.95s; }
+.section:nth-child(15) { animation-delay: 0.99s; }
 
 .section-label {
   font-size: 10px;
@@ -381,6 +385,225 @@ h1 em {
   line-height: 1;
 }
 
+/* GAMES GRID */
+.games-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.game-card {
+  background: rgba(58,107,74,0.12);
+  border: 1px solid rgba(138,184,154,0.12);
+  border-radius: 14px;
+  padding: 16px 16px 14px;
+  transition: transform 0.25s ease, border-color 0.25s, background 0.25s;
+  backdrop-filter: blur(4px);
+  cursor: default;
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(138,184,154,0.35);
+  background: rgba(58,107,74,0.24);
+}
+
+.game-icon {
+  font-size: 26px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 6px rgba(92,143,103,0.5));
+}
+
+.game-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--parchment);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.game-type {
+  font-size: 11px;
+  color: var(--sage);
+  opacity: 0.65;
+  letter-spacing: 0.04em;
+}
+
+/* BOOK CARD */
+.book-card {
+  background: rgba(58,107,74,0.12);
+  border: 1px solid rgba(138,184,154,0.15);
+  border-radius: 16px;
+  padding: 0;
+  display: flex;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  transition: transform 0.25s ease, border-color 0.25s;
+}
+
+.book-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(138,184,154,0.32);
+}
+
+.book-spine {
+  width: 6px;
+  background: linear-gradient(180deg, var(--fern) 0%, var(--moss) 100%);
+  flex-shrink: 0;
+}
+
+.book-info {
+  padding: 20px 20px 18px;
+}
+
+.book-title {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--parchment);
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
+
+.book-author {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.8;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.book-note {
+  font-size: 13px;
+  color: rgba(194,217,200,0.65);
+  line-height: 1.7;
+}
+
+/* FOOD CARD */
+.food-card {
+  background: rgba(58,107,74,0.12);
+  border: 1px solid rgba(138,184,154,0.15);
+  border-radius: 16px;
+  padding: 20px 22px;
+  backdrop-filter: blur(6px);
+}
+
+.food-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.food-emoji { font-size: 22px; }
+
+.food-headline {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: rgba(194,217,200,0.75);
+}
+
+.food-flow { display: flex; flex-direction: column; gap: 6px; }
+
+.food-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(58,107,74,0.14);
+  border: 1px solid rgba(138,184,154,0.1);
+  border-radius: 12px;
+  padding: 13px 15px;
+}
+
+.food-step-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+
+.food-step-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--parchment);
+  margin-bottom: 4px;
+}
+
+.food-step-note {
+  font-size: 12px;
+  color: rgba(194,217,200,0.55);
+  line-height: 1.55;
+}
+
+.food-arrow {
+  text-align: center;
+  color: var(--fern);
+  opacity: 0.5;
+  font-size: 16px;
+  padding: 0 0 0 18px;
+  line-height: 1;
+}
+
+/* DREAM CARD */
+.dream-card {
+  background: linear-gradient(135deg, rgba(27,58,45,0.85) 0%, rgba(15,34,25,0.95) 100%);
+  border: 1px solid rgba(92,143,103,0.3);
+  border-radius: 16px;
+  padding: 30px 24px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+}
+
+.dream-bg-text {
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  transform: translateY(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 72px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(92,143,103,0.08);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.dream-content { position: relative; z-index: 1; }
+
+.dream-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 10px rgba(92,143,103,0.6));
+  display: block;
+}
+
+.dream-place {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--parchment);
+  margin-bottom: 10px;
+}
+
+.dream-note {
+  font-size: 13px;
+  color: rgba(194,217,200,0.65);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.dream-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+
 /* LINKS */
 .links { display: flex; flex-direction: column; gap: 10px; }
 
@@ -464,6 +687,7 @@ h1 em {
 
 @media (max-width: 360px) {
   .info-grid { grid-template-columns: 1fr; }
+  .games-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -544,6 +768,84 @@ h1 em {
     <p class="section-label">What people say</p>
     <div class="good-side">
       "The one who always sees the good in you — and somehow knows exactly what to say when it matters."
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Games I play</p>
+    <div class="games-grid">
+      <div class="game-card">
+        <div class="game-icon">🎯</div>
+        <div class="game-name">Counter-Strike 2</div>
+        <div class="game-type">FPS / Tactical</div>
+      </div>
+      <div class="game-card">
+        <div class="game-icon">🪖</div>
+        <div class="game-name">PUBG PC</div>
+        <div class="game-type">Battle Royale</div>
+      </div>
+      <div class="game-card">
+        <div class="game-icon">🌆</div>
+        <div class="game-name">Cyberpunk 2077</div>
+        <div class="game-type">Open World RPG</div>
+      </div>
+      <div class="game-card">
+        <div class="game-icon">🏔️</div>
+        <div class="game-name">Riders Republic</div>
+        <div class="game-type">Extreme Sports</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Currently reading</p>
+    <div class="book-card">
+      <div class="book-spine"></div>
+      <div class="book-info">
+        <div class="book-title">Things Only You Can See When You Slow Down</div>
+        <div class="book-author">Haemin Sunim</div>
+        <p class="book-note">The kind of book that makes you stop mid-page and just sit with a thought for a while. Feels like someone finally put words to what I already knew but couldn't say.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">My restaurant order</p>
+    <div class="food-card">
+      <div class="food-header">
+        <span class="food-emoji">🍽️</span>
+        <span class="food-headline">The perfect meal, honestly</span>
+      </div>
+      <div class="food-flow">
+        <div class="food-step">
+          <div class="food-step-icon">🥘</div>
+          <div>
+            <div class="food-step-name">Nehari with Nun</div>
+            <div class="food-step-note">Slow-cooked, rich, the kind of meal that fills you up for the whole day. No substitutes.</div>
+          </div>
+        </div>
+        <div class="food-arrow">↓</div>
+        <div class="food-step">
+          <div class="food-step-icon">🥛</div>
+          <div>
+            <div class="food-step-name">Lacchhi to finish</div>
+            <div class="food-step-note">Cold, sweet, the perfect ending — non-negotiable, always at the last.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Dream destination</p>
+    <div class="dream-card">
+      <div class="dream-bg-text">HAWAII</div>
+      <div class="dream-content">
+        <span class="dream-icon">🌺</span>
+        <div class="dream-place">Hawai'i, USA</div>
+        <p class="dream-note">Somewhere between the ocean and the mountains, where everything just feels alive and unhurried. The kind of place you see in pictures and think — I need to be there one day. One day.</p>
+        <div class="dream-badge">✦ Someday bucket list</div>
+      </div>
     </div>
   </div>
 
